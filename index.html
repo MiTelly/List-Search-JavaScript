@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <title>List and Search!</title>
+  </head>
+  <style media="screen">
+  html {
+        font-family: GillSans, Calibri, Trebuchet, sans-serif;
+        font-size: 20px;
+       }
+  </style>
+
+  <body class="teal lighten-2">
+    <div class="container">
+      <h1 class="center-align">
+        List and Search...
+      </h1>
+
+      <input type="text" id="addItem" placeholder="Add an item...">
+      <a class="btn-floating btn-large waves-effect red" onclick="newItem()" >ADD</a>
+
+      <input type="text" id="filterInput" placeholder="Search items...">
+
+      <ul class="collection with-header">
+        <li class="collection-header">
+          <h5>
+            Items List
+          </h5>
+        </li>
+      </ul>
+
+      <ul id="items" class="collection"></ul>
+    </div>
+
+    <script type="text/javascript">
+      let filterInput = document.getElementById('filterInput');
+      filterInput.addEventListener('keyup', filterItems);
+      let itemsArray = [];
+
+      function filterItems() {
+        let filterValue = document.getElementById('filterInput').value.toUpperCase();
+        let ul = document.getElementById('items');
+        let li = ul.querySelectorAll('li.collection-item');
+        for (let i = 0; i < li.length; i++) {
+          let a = li[i].getElementsByTagName('a')[0];
+          if (a.innerHTML.toUpperCase().indexOf(filterValue) > -1) {
+            li[i].style.display = '';
+          } else {
+            li[i].style.display = 'none';
+          }
+        }
+      }
+
+      function newItem() {
+        document.getElementById('items').innerHTML = "";
+        let newItem = document.getElementById('addItem').value;
+        itemsArray.push(newItem.toUpperCase());
+        itemsArray.sort();
+        document.getElementById('addItem').value = "";
+
+        let ul = document.getElementById('items');
+
+        for(let i=0; i<itemsArray.length; i++) {
+          if (itemsArray[i].length > 0) {
+            let aTag = document.createElement('a');
+            aTag.setAttribute('href', '#');
+            aTag.appendChild(document.createTextNode(itemsArray[i]));
+
+            let newLi = document.createElement('li');
+            newLi.setAttribute('class', 'collection-item');
+            newLi.appendChild(aTag);
+            ul.appendChild(newLi);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
